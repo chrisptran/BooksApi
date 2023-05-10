@@ -17,19 +17,20 @@ public class BookController {
 	@Autowired
 	BookService bookService;
 	
-	@RequestMapping("/books/{bookId}")
-	public String index(Model model, @PathVariable("bookId")Long bookId) {
-		
-		System.out.println(bookId);
-		Book book = bookService.findBook(bookId);
-		System.out.println(book);
+	@RequestMapping("/books")
+	public String index(Model model) {
 		
 		List<Book> books = bookService.allBooks();
-		
-		model.addAttribute("book", book);
 		model.addAttribute("books", books);
 		
 		return "index.jsp";
+	}
+	
+	@RequestMapping("/books/{bookId}")
+	public String displayOne(Model model, @PathVariable("bookId") Long bookId) {
+		model.addAttribute("book", bookService.findBook(bookId));
+		
+		return "displayOne.jsp";
 	}
 
 }
